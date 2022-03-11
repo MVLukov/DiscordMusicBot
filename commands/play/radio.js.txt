@@ -1,0 +1,61 @@
+let {MessageEmbed, colors, players, sendAndDelete, Dispatcher} = require("../required")
+
+let radios = [
+    {
+        name: "fresh",
+        url: "http://193.108.24.21:8000/fresh?file=.mp3"
+    },
+    {
+        name: "veronika",
+        url: "https://22653.live.streamtheworld.com/RADIO_VERONIKAAAC_L.aac?dist=DESKTOP"
+    },
+    {
+        name: "playradio",
+        url: "https://playradio.bg:8898/live-aac"
+    },
+    {
+        name: "veselina",
+        url: "https://bss.neterra.tv/rtplive/veselinaradio_live.stream/playlist.m3u8"
+    }
+]
+
+
+module.exports = {
+    name: 'radio',
+    aliases: ["radio"],
+    description: 'Show list of radios.',
+    execute(message, arg) {
+        if (message.member.voice.channel) {
+
+            let player = players.find(message);
+            if (player == undefined) {
+                players.push({
+                    id: message.guild.id,
+                    player: new Dispatcher(message)
+                })
+            }
+
+            player = players.find(message);
+
+            if (arg >= 0 && arg <= radios.length - 1 && arg.length !== 0) {
+                player.playRadio(radios[arg])
+    
+                let embed = new MessageEmbed()
+                    .setTitle(`Playing radio ${radios[arg].name.toUpperCase()}`)
+                    .setColor(colors.info)
+                message.channel.send(embed)
+            } else {
+                let embed = new MessageEmbed()
+                    .setTitle("Please choose a radio station!")
+                    .setColor(colors.warning)
+                sendAndDelete(message, embed)
+            }
+
+        } else {
+            let embed = new MessageEmbed()
+                .setTitle("You are not in voice channel")
+                .setColor(colors.warning)
+            sendAndDelete(message, embed)
+        }
+    },
+};

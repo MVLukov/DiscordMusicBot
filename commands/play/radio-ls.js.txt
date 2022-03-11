@@ -1,0 +1,38 @@
+let {MessageEmbed, colors, players, sendAndDelete, vote} = require("../required")
+
+let radios = [
+    {
+        name: "fresh",
+        url: "http://193.108.24.21:8000/fresh?file=.mp3"
+    },
+    {
+        name: "veronika",
+        url: "https://22653.live.streamtheworld.com/RADIO_VERONIKAAAC_L.aac?dist=DESKTOP"
+    },
+    {
+        name: "playradio",
+        url: "https://playradio.bg:8898/live-aac"
+    },
+    {
+        name: "veselina",
+        url: "https://bss.neterra.tv/rtplive/veselinaradio_live.stream/playlist.m3u8"
+    }
+]
+
+
+module.exports = {
+    name: 'radio-ls',
+    aliases: ["radio-ls"],
+    description: 'Show list of radios.',
+    execute(message, arg) {
+        if (radios.length > 0) {
+            let embed = new MessageEmbed()
+                .setTitle("Radio list")
+                .setColor(colors.radio)
+            radios.forEach((e, i) => {
+                embed.addField(`Radio ${e.name} [${i}]`, `Radio url: \n${e.url}`)
+            })
+            message.channel.send(embed)
+        }
+    },
+};
