@@ -12,6 +12,6 @@ Must have **.env** file in the local dir of the project:
 - delay=10
 
 Use **sh run.sh** to build and run the bot if you have installed Docker and Docker Compose\
-After succssesful build invite the bot in your server and type **!help** or tag it like **@myBot**\
+After succssesful build invite the bot in your server and type **!help** or tag it like **@myBot**
 
 Feel free to create issue if you find bug/s.
