@@ -5,8 +5,8 @@ let Queue = require("./Queue");
 let colors = require("../settings/color.json");
 let Songs = require("../db_models/Songs");
 let moment = require("moment-timezone");
-let { timezone } = require("../settings/config.json");
 let { Op } = require("sequelize");
+require("dotenv").config();
 
 class Dispatcher extends Queue {
     constructor(message, voice) {
@@ -45,8 +45,8 @@ class Dispatcher extends Queue {
                 songUrl: this.queue[0].url,
                 lastPlayedByName: `${this.message.member.user.username}#${this.message.member.user.discriminator}`,
                 lastPlayedById: this.message.member.user.id,
-                lastPlayedAt: moment().tz(timezone).format().toString(),
-                createdAt: moment().tz(timezone).format().toString()
+                lastPlayedAt: moment().tz(process.env.timezone).format().toString(),
+                createdAt: moment().tz(process.env.timezone).format().toString()
             }
         }).then(async res => {
             if (!res[1]) {
@@ -55,7 +55,7 @@ class Dispatcher extends Queue {
                     playCount: playCount,
                     lastPlayedByName: `${this.message.member.user.username}#${this.message.member.user.discriminator}`,
                     lastPlayedById: this.message.member.user.id,
-                    lastPlayedAt: moment().tz(timezone).format().toString()
+                    lastPlayedAt: moment().tz(process.env.timezone).format().toString()
                 }, {
                     where: { [Op.and]: [{ guildId: this.message.guild.id }, { songUrl: this.queue[0].url }] }
                 });

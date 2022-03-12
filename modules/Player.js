@@ -49,7 +49,7 @@ class Player {
         this.message.channel.send(embed).then(msg => {
             setTimeout(() => {
                 msg.delete();
-            },  process.env.delay * 1000);
+            }, process.env.delay * 1000);
         });
     }
 }

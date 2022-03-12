@@ -19,6 +19,10 @@ module.exports = {
                     if (player.queue.length > 0) {
                         if (!player.skipVote) {
                             vote(message, "skip", player, arg);
+                            let embed = new MessageEmbed()
+                                .setTitle("Song skipped!")
+                                .setColor(colors.info);
+                            sendAndDelete(message, embed);
                         } else {
                             let embed = new MessageEmbed()
                                 .setTitle("There is another vote already!")

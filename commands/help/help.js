@@ -1,4 +1,4 @@
-let { MessageEmbed, colors, prefixes } = require("../required");
+let { MessageEmbed, colors, prefixes, allowedChannels } = require("../required");
 
 module.exports = {
     name: "help",
@@ -6,8 +6,11 @@ module.exports = {
     description: "",
     execute(message) {
         let prefix = prefixes.get(message.guild.id);
+        let allowedChannel = allowedChannels.get(message.guild.id);
+        let channel = allowedChannel == null ? "**every**" : `<#${allowedChannel}>`;
         let embed = new MessageEmbed()
             .setTitle("Commands")
+            .setDescription(`Prefix: **${prefix}** | Allowed channel: ${channel}`)
             .addFields(
                 { name: `${prefix}join/j `, value: "Bot enters in the voice channel.", inline: true },
                 { name: `${prefix}leave/l`, value: "Bot leaves from the voice channel.", inline: true },

@@ -17,7 +17,7 @@ module.exports = {
                     sendAndDelete(message, embed);
                 } else {
                     if (!player.leaveVote) {
-                        vote(message, "vote", player, arg);
+                        vote(message, "leave", player, arg);
                     } else {
                         let embed = new MessageEmbed()
                             .setTitle("There is another vote already!")

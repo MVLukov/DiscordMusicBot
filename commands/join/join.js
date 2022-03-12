@@ -14,6 +14,11 @@ module.exports = {
                 });
                 player = players.find(message);
                 player.join();
+            } else {
+                let embed = new MessageEmbed()
+                    .setTitle("I'm already in!")
+                    .setColor(colors.warning);
+                sendAndDelete(message, embed);
             }
         } else {
             let embed = new MessageEmbed()

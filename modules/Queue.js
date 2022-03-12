@@ -1,8 +1,8 @@
 let { MessageEmbed } = require("discord.js");
 let Player = require("./Player");
 let colors = require("../settings/color.json");
-let { timezone } = require("../settings/config.json");
 let moment = require("moment-timezone");
+require("dotenv").config();
 
 class Queue extends Player {
     constructor(message, voice) {
@@ -116,11 +116,11 @@ class Queue extends Player {
         song.title = song.title.replace(/ *\[[^\]]*]/, "");
 
         if (this.queue.length == 0) {
-            let start = moment().tz(timezone);
+            let start = moment().tz(process.env.timezone);
             let hourStart = start.hours() < 10 ? `0${start.hours()}` : start.hours();
             let minutesStart = start.minutes() < 10 ? `0${start.minutes()}` : start.minutes();
 
-            let end = moment().tz(timezone).add(song.duration / 1000, "seconds");
+            let end = moment().tz(process.env.timezone).add(song.duration / 1000, "seconds");
             let hourEnd = end.hours() < 10 ? `0${end.hours()}` : end.hours();
             let minutesEnd = end.minutes() < 10 ? `0${end.minutes()}` : end.minutes();
 
@@ -141,11 +141,11 @@ class Queue extends Player {
             let lastItem = this.queue[this.queue.length - 1];
             let lastItemArr = lastItem.endsAt.split(":");
 
-            let start = moment().tz(timezone).set({ hour: lastItemArr[0], minutes: lastItemArr[1] });
+            let start = moment().tz(process.env.timezone).set({ hour: lastItemArr[0], minutes: lastItemArr[1] });
             let hourStart = start.hours() < 10 ? `0${start.hours()}` : start.hours();
             let minutesStart = start.minutes() < 10 ? `0${start.minutes()}` : start.minutes();
 
-            let end = moment(start).tz(timezone).add(song.duration / 1000, "seconds");
+            let end = moment(start).tz(process.env.timezone).add(song.duration / 1000, "seconds");
             let hourEnd = end.hours() < 10 ? `0${end.hours()}` : end.hours();
             let minutesEnd = end.minutes() < 10 ? `0${end.minutes()}` : end.minutes();
 
@@ -172,11 +172,11 @@ class Queue extends Player {
 
             if (arr.length == 0) {
                 if (this.station.length > 0) {
-                    let start = moment().tz(timezone);
+                    let start = moment().tz(process.env.timezone);
                     let hourStart = start.hours() < 10 ? `0${start.hours()}` : start.hours();
                     let minutesStart = start.minutes() < 10 ? `0${start.minutes()}` : start.minutes();
 
-                    let end = moment().tz(timezone).add(x.duration / 1000, "seconds");
+                    let end = moment().tz(process.env.timezone).add(x.duration / 1000, "seconds");
                     let hourEnd = end.hours() < 10 ? `0${end.hours()}` : end.hours();
                     let minutesEnd = end.minutes() < 10 ? `0${end.minutes()}` : end.minutes();
 
@@ -193,11 +193,11 @@ class Queue extends Player {
                 let lastItem = arr[arr.length - 1];
                 let lastItemArr = lastItem.endsAt.split(":");
 
-                let start = moment().tz(timezone).set({ hour: lastItemArr[0], minutes: lastItemArr[1] });
+                let start = moment().tz(process.env.timezone).set({ hour: lastItemArr[0], minutes: lastItemArr[1] });
                 let hour = start.hours() < 10 ? `0${start.hours()}` : start.hours();
                 let minutes = start.minutes() < 10 ? `0${start.minutes()}` : start.minutes();
 
-                let end = moment(start).tz(timezone).add(x.duration / 1000, "seconds");
+                let end = moment(start).tz(process.env.timezone).add(x.duration / 1000, "seconds");
                 let hourEnd = end.hours() < 10 ? `0${end.hours()}` : end.hours();
                 let minutesEnd = end.minutes() < 10 ? `0${end.minutes()}` : end.minutes();
 
