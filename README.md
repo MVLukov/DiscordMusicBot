@@ -7,7 +7,7 @@ Must have **.env** file in the local dir of the project:
 - timezone= *Paste your timezone like Berlin/Europe*
 - db_host=postgres
 - db_username= *Paste your username for the database*
-- db_password= *Paste your passowrd for the database*
+- db_password= *Paste your password for the database*
 - db_database=musicBot 
 - delay=10
 
