@@ -11,22 +11,25 @@ require("dotenv").config();
 const sequelize = new Sequelize(process.env.db_database, process.env.db_username, process.env.db_password, {
     host: "postgres",
     dialect: "postgres",
-    logging: false
+    logging: false,
+    timezone: process.env.timezone
 });
 
-async function conn() {
+async function dbConn() {
     try {
         await sequelize.authenticate();
         console.log(`Connected to ${process.env.db_database}@${process.env.db_host}`);
         client.login(process.env.token);
     } catch (error) {
+        dbConn();
         console.error(error);
     }
 }
-conn();
+
+dbConn();
 
 exports.sequelize = sequelize;
-exports.conn = conn;
+exports.conn = dbConn;
 
 let Guilds = require("./db_models/Guilds");
 let Songs = require("./db_models/Songs");
@@ -40,13 +43,20 @@ exports.allowedChannels = allowedChannels;
 exports.search = search;
 
 client.on("ready", async () => {
-    await Songs.sync({ alter: true });
-    await Guilds.sync({ alter: true });
+    await Songs.sync();
+    await Guilds.sync();
     let guilds = client.guilds.cache;
+
     guilds.map(async g => {
-        let found = await Guilds.findOne({
-            where: { guildId: g.id }
+        let found = await Guilds.findOrCreate({
+            where: { guildId: g.id },
+            defaults: {
+                prefix: "!"
+            },
+            raw: true
         });
+
+        found = found[0];
 
         prefixes.set(g.id, found.prefix);
         allowedChannels.set(g.id, found.botChannel);
@@ -92,7 +102,7 @@ client.on("message", async message => {
     if (message.guild == null) return;
     let prefix = prefixes.get(message.guild.id);
     let allowedChannel = allowedChannels.get(message.guild.id);
-    let channel = allowedChannel == null ? "every" : `<#${allowedChannel}>`;
+    let channel = allowedChannel == null ? "**every**" : `<#${allowedChannel}>`;
 
     if (message.mentions.has(client.user.id)) {
         let embed = new MessageEmbed()
