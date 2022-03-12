@@ -9,8 +9,8 @@ Must have **.env** file in the local dir of the project:
 - token= _Paste your discord bot token_
 - timezone= _Paste your timezone like Europe/Berlin_
 - db_host=postgres
-- db*username= \_Paste your username for the database*
-- db*password= \_Paste your password for the database*
+- db_username= _Paste your username for the database_
+- db_password= _Paste your password for the database_
 - db_database=musicBot
 - delay=10
 
